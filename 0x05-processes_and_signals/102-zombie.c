@@ -5,8 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
 #include <unistd.h>
 
 /**
@@ -16,11 +14,11 @@
  */
 int infinite_while(void)
 {
-  while (1)
-  {
-    sleep(1);
-  }
-  return (0);
+	while (1)
+	{
+		sleep(1);
+	}
+	return (0);
 }
 
 /**
@@ -30,23 +28,17 @@ int infinite_while(void)
  */
 int main(void)
 {
-  pid_t pid;
-  char count = 0;
+	int i;
+	pid_t zombie;
 
-  while (count < 5)
-  {
-    pid = fork();
-    if (pid > 0)
-    {
-      printf("Zombie process created, PID: %d\n", pid);
-      sleep(1);
-      count++;
-    }
-    else
-      exit(0);
-  }
+	for (i = 0; i < 5; i++)
+	{
+		zombie = fork();
+		if (!zombie)
+			return (0);
+		printf("Zombie process created, PID: %d\n", zombie);
+	}
 
-  infinite_while();
-
-  return (EXIT_SUCCESS);
+	infinite_while();
+	return (0);
 }
